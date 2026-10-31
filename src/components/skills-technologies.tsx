@@ -14,7 +14,6 @@ export function SkillsTechnologies() {
   return <section id="stack" className="skills-section" aria-labelledby="skills-heading">
     <span id="skills" className="section-anchor" aria-hidden="true" />
     <h2 id="skills-heading">Skills &amp; Technologies</h2>
-    <div className="skills-heading-accent" aria-hidden="true" />
     <div className="tech-stack-grid">
       {skillGroups.map(({ id, name, skills }) => {
         const Icon = categoryIcons[id as keyof typeof categoryIcons];
