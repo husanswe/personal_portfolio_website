@@ -40,6 +40,18 @@ test("daily tooltips preserve zero, singular, and comma-separated GitHub counts"
   assert.equal(days.reduce((total, value) => total + value.count, 0), 1235);
 });
 
+test("a historical leap year with no contributions still includes February 29", () => {
+  const html = Array.from({ length: 366 }, (_, index) => {
+    const date = new Date(Date.UTC(2024, 0, index + 1)).toISOString().slice(0, 10);
+    return `<td data-date="${date}" data-count="0" data-level="0"></td>`;
+  }).join("");
+  const days = parseCalendar(html, 2024);
+  assert.equal(days.length, 366);
+  assert.equal(days[59].date, "2024-02-29");
+  assert.equal(days.at(-1)?.date, "2024-12-31");
+  assert.deepEqual(getStreaks(days, "2026-10-31"), { current: 0, longest: 0, activeDays: 0 });
+});
+
 test("public calendar fixture parses GitHub's real daily counts", { skip: !existsSync(".tools/github-calendar.html") }, () => {
   const days = parseCalendar(readFileSync(".tools/github-calendar.html", "utf8"), 2026);
   assert.equal(days.length, 365);

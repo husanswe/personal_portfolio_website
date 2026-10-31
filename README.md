@@ -38,13 +38,15 @@ No database, paid services, API keys, or environment variables are required. The
 
 ## GitHub activity
 
-The calendar fetches the actual public contribution calendar for `husanswe` from GitHub on the server. It starts with 2026, automatically selects the latest calendar year, and adds future year options as time passes. The graph shows a full January–December calendar, daily hover/focus/tap details, total contributions, current streak, longest streak within the selected year, and active days.
+The calendar fetches the actual public contribution calendar for `husanswe` from GitHub on the server. The year selector includes every year from 2023, when the account was opened in February, through the current year, newest first. It automatically selects the current year and adds new year options as time passes. Selecting an earlier year loads that year's actual daily activity, totals, and streaks. The graph shows a full January–December calendar, daily hover/focus/tap details, total contributions, current or year-end streak, longest streak within the selected year, and active days.
 
 The browser refreshes once a minute while the page is visible and when returning to the tab. Server responses are cached for 60 seconds. GitHub itself may take additional time to reflect new activity; this is near-live rather than an instant stream. The calendar counts **contributions**, which can include commits, pull requests, reviews, and issues; it does not falsely label every contribution as a commit. Private activity is limited to what your GitHub profile makes public.
 
 The public calendar requires no token. If GitHub is temporarily unavailable, the site displays an honest error and retry button, or keeps the last successful result when a background refresh fails. It never fabricates activity. GitHub could change its public HTML format; `src/lib/github-calendar.ts` validates the complete calendar and fails explicitly if the format changes.
 
 ## Theme and accessibility
+
+All interface text, including project-cover illustrations and form controls, uses the locally hosted JetBrains Mono variable font.
 
 Dark mode is the default, regardless of the device theme. The sun and moon controls save the visitor's choice locally and restore it before the page paints. The site includes semantic sections, a skip link, visible keyboard focus, reduced motion support, and touch-friendly social links. The activity calendar scrolls within its panel on narrow screens without widening the page.
 

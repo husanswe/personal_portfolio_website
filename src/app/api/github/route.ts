@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseCalendar } from "@/lib/github-calendar";
+import { GITHUB_FIRST_YEAR, parseCalendar } from "@/lib/github-calendar";
 
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
-  const currentYear = Math.max(2026, new Date().getUTCFullYear());
+  const currentYear = Math.max(GITHUB_FIRST_YEAR, new Date().getUTCFullYear());
   const value = request.nextUrl.searchParams.get("year") ?? String(currentYear);
-  if (!/^\d{4}$/.test(value) || Number(value) < 2026 || Number(value) > currentYear) {
-    return NextResponse.json({ error: "Please choose a valid year from 2026 onwards." }, { status: 400 });
+  if (!/^\d{4}$/.test(value) || Number(value) < GITHUB_FIRST_YEAR || Number(value) > currentYear) {
+    return NextResponse.json({ error: `Please choose a valid year between ${GITHUB_FIRST_YEAR} and ${currentYear}.` }, { status: 400 });
   }
   const year = Number(value);
   try {

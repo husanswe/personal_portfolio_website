@@ -1,3 +1,6 @@
+// Husan's GitHub account was opened in February 2023.
+export const GITHUB_FIRST_YEAR = 2023;
+
 export type ContributionDay = { date: string; count: number; level: number };
 export type CalendarData = {
   username: string;
