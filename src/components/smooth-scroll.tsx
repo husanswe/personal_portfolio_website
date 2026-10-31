@@ -30,6 +30,7 @@ export function SmoothScroll() {
 
       event.preventDefault();
       if (window.location.hash !== hash) window.history.pushState(null, "", hash);
+      lenis.resize();
       lenis.scrollTo(target, {
         duration: 1.35,
         onComplete: () => {
