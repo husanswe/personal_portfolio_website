@@ -49,7 +49,7 @@ export default function Home() {
               <p>{project.description}</p><div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
             </article>)}
           </div>
-          <p className="project-footnote"><span className="tiny-line" />Klean and Texmart covers are illustrative. Both projects will be live soon.</p>
+          <p className="project-footnote"><span className="tiny-line" />Texmart&apos;s cover is illustrative. Klean and Texmart will be live soon.</p>
         </Section>
 
         <Section id="activity" number="02" title="Activity"><GithubActivity /></Section>

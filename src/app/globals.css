@@ -132,7 +132,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .product-laptop { position: absolute; width: 135px; height: 135px; right: 1%; top: 2%; color: #47424f; transform: rotate(-12deg); filter: drop-shadow(7px 10px 5px #534d6229); }
 .product-headphones { position: absolute; width: 63px; height: 63px; right: 5%; top: 47%; color: #37333d; transform: rotate(18deg); filter: drop-shadow(3px 5px 2px #544e622c); }
 .art-caption { position: absolute; left: 20px; bottom: 12px; font-size: 4px; letter-spacing: 1.2px; opacity: .6; }
-.klean-art { background: #eae8e1; color: #2c3029; }
+.klean-art { background: #000; }
 .klean-toolbar { display: flex; justify-content: space-between; align-items: center; margin: 0 18px; padding: 12px 0 10px; border-bottom: 1px solid #2c302922; }
 .klean-toolbar > span:first-child { font-size: 18px; font-weight: 700; letter-spacing: -1px; }
 .klean-dot { color: #8e987c; }
