@@ -1,4 +1,5 @@
 import { IconArrowUpRight, IconArrowUp, IconBrandGithub, IconArrowRight, IconCircleFilled } from "@tabler/icons-react";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialLinks } from "@/components/social-links";
 import { ProjectPreview } from "@/components/project-preview";
@@ -22,14 +23,19 @@ export default function Home() {
       </header>
       <main id="main">
         <section className="hero" aria-labelledby="name">
-          <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span><span className="hero-edition">VOL. 2026</span></div>
-          <h1 id="name">Husan Suleyman</h1>
-          <div className="role-line"><span className="status-dot" /><span>{profile.role}</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
+          <div className="hero-intro">
+            <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span><span className="hero-edition">VOL. 2026</span></div>
+            <h1 id="name">Husan Suleyman</h1>
+            <div className="role-line"><span className="status-dot" /><span>{profile.role}</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
+          </div>
+          <div className="hero-portrait">
+            <Image src="/images/husan-suleyman.png" alt="Portrait of Husan Suleyman" fill sizes="(max-width: 700px) 240px, (max-width: 900px) 240px, (min-width: 1600px) 360px, 340px" preload className="hero-photo" />
+          </div>
           <div className="about-copy" aria-label="About me">
             <p>I love building things and solving problems. I enjoy working on backend systems, building SaaS products, and developing scalable backend solutions that people actually use. I care about performance, clean architecture, and code that just works.</p>
             <p>I do my best work on small teams that ship often and obsess over the details. If I&apos;m not coding, I&apos;m probably exploring new dev tools, deep in a tech talk, or working on my next SaaS idea.</p>
           </div>
-          <SocialLinks />
+          <div className="hero-socials"><SocialLinks /></div>
           <div className="hero-bottom"><span>Thoughtful code. Useful products.</span><a href="#projects">Explore my work <IconArrowRight size={13} aria-hidden="true" /></a></div>
         </section>
 
