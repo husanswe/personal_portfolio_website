@@ -3,9 +3,9 @@ import { profile } from "@/lib/portfolio";
 
 const socials = [
   { name: "GitHub", href: profile.github, icon: IconBrandGithub },
-  { name: "Telegram", href: profile.telegram, icon: IconBrandTelegram },
   { name: "LinkedIn", href: profile.linkedin, icon: IconBrandLinkedin },
   { name: "X", href: profile.x, icon: IconBrandX },
+  { name: "Telegram", href: profile.telegram, icon: IconBrandTelegram },
   { name: "Email", href: `mailto:${profile.email}`, icon: IconMail },
 ];
 
