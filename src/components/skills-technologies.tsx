@@ -13,7 +13,7 @@ const categoryIcons = {
 export function SkillsTechnologies() {
   return <section id="stack" className="skills-section" aria-labelledby="skills-heading">
     <span id="skills" className="section-anchor" aria-hidden="true" />
-    <div className="section-label"><span>03</span><h2 id="skills-heading">Skills &amp; Technologies</h2></div>
+    <div className="section-label"><span>04</span><h2 id="skills-heading">Skills &amp; Technologies</h2></div>
     <div className="tech-stack-grid">
       {skillGroups.map(({ id, name, skills }) => {
         const Icon = categoryIcons[id as keyof typeof categoryIcons];

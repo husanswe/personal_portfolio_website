@@ -2,9 +2,9 @@ import { IconArrowUpRight, IconDiamond } from "@tabler/icons-react";
 import { experience } from "@/lib/portfolio";
 
 export function WorkExperience() {
-  return <section id="experience" className="experience-section" aria-labelledby="experience-heading">
-    <div className="experience-panel">
-      <h2 id="experience-heading">Experience</h2>
+  return <section id="experience" className="section-row" aria-labelledby="experience-heading">
+    <div className="section-label"><span>03</span><h2 id="experience-heading">Experience</h2></div>
+    <div className="experience-panel min-w-0">
       <ol className="experience-list">
         {experience.map(job => <li className="experience-job" key={job.id}>
           <div className={`company-logo company-logo-${job.id}`} aria-hidden="true" />
