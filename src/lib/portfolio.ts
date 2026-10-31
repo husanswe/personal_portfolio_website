@@ -20,18 +20,21 @@ export const skillGroups = [
 export const experience = [
   {
     id: "itransition", title: "Web Developer Intern", company: "Itransition Group", employment: "Internship",
+    website: "https://www.itransition.com/",
     dates: "Jul 2025 – Aug 2025", duration: "2 mos", location: "Tashkent, Uzbekistan", arrangement: "Remote",
     description: "Learned the basics of frontend and backend web development, deployment, and basic algorithms.",
     skills: "",
   },
   {
     id: "citifuel", title: "Salesperson", company: "Citifuel LLC", employment: "Full-time",
+    website: "https://citifuel.com/",
     dates: "Dec 2024", duration: "1 mo", location: "Tashkent, Uzbekistan", arrangement: "On-site",
     description: "I tried selling truck fuel cards to U.S. carriers, but after a few weeks, I realized it wasn’t for me, so I left.",
     skills: "Sales and cold calling",
   },
   {
     id: "hermes", title: "Truck Dispatcher", company: "Hermes Express", employment: "Full-time",
+    website: null,
     dates: "Nov 2023 – Oct 2024", duration: "1 yr", location: "Tashkent, Uzbekistan", arrangement: "On-site",
     description: "I booked and dispatched loads for American truck drivers while working at a logistics company.",
     skills: "Problem solving and critical thinking",

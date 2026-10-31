@@ -1,4 +1,4 @@
-import { IconDiamond } from "@tabler/icons-react";
+import { IconArrowUpRight, IconDiamond } from "@tabler/icons-react";
 import { experience } from "@/lib/portfolio";
 
 export function WorkExperience() {
@@ -11,6 +11,7 @@ export function WorkExperience() {
           <div className="experience-details">
             <h3>{job.title}</h3>
             <p className="experience-company">{job.company}<span> · </span>{job.employment}</p>
+            {job.website ? <a className="experience-website" href={job.website} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${job.company} website (opens in a new tab)`}>{new URL(job.website).hostname.replace(/^www\./, "")}<IconArrowUpRight size={13} stroke={1.8} aria-hidden="true" /></a> : null}
             <p className="experience-meta">{job.dates}<span> · </span>{job.duration}</p>
             <p className="experience-meta">{job.location}<span> · </span>{job.arrangement}</p>
             <p className="experience-description">{job.description}</p>
