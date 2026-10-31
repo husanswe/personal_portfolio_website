@@ -24,7 +24,7 @@ export default function Home() {
       <main id="main">
         <section className="hero" aria-labelledby="name">
           <div className="hero-intro">
-            <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span><span className="hero-edition">VOL. 2026</span></div>
+            <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span></div>
             <h1 id="name">Husan Suleyman</h1>
             <div className="role-line"><span className="status-dot" /><span>{profile.role}</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
           </div>
