@@ -183,15 +183,36 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .activity-skeleton { height: 149px; background: repeating-linear-gradient(90deg,var(--surface) 0 9px,transparent 9px 12px); opacity: .6; animation: breathe 2s ease-in-out infinite; }
 @keyframes breathe { 50% { opacity: .25; } }
 
-/* Stack, skills, and contact */
-.tech-stack-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; background-image: linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size: 44px 44px; }
-.tech-card { min-width: 0; min-height: 174px; padding: 23px; background: #080808; border: 1px solid #2b2b2b; border-radius: 19px; }
-.tech-card h3 { display: flex; align-items: center; gap: 11px; color: #e6e6e6; font-size: 15px; font-weight: 450; margin: 0 0 21px; letter-spacing: -.4px; }
+/* Experience follows the structure of the supplied LinkedIn profile. */
+.experience-section { margin: 78px 0 0 190px; }
+.experience-panel { padding: 25px 24px 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.experience-panel > h2 { font-size: 18px; font-weight: 600; margin: 0 0 27px; letter-spacing: -.5px; }
+.experience-list { list-style: none; padding: 0; margin: 0; }
+.experience-job { display: grid; grid-template-columns: 48px minmax(0,1fr); gap: 12px; padding: 0 0 20px; }
+.experience-job + .experience-job { border-top: 1px solid var(--line); padding-top: 15px; }
+.company-logo { width: 48px; height: 48px; border-radius: 4px; background-image: url('/images/experience-reference.png'); background-size: 790px 551px; flex: 0 0 auto; }
+.company-logo-itransition { background-position: -23px -81px; }
+.company-logo-citifuel { background-position: -23px -226px; }
+.company-logo-hermes { background-position: -23px -396px; }
+.experience-details h3 { margin: 0 0 4px; font-size: 14px; line-height: 1.45; font-weight: 600; }
+.experience-company { margin: 0 0 3px; font-size: 11px; line-height: 1.65; }
+.experience-meta { margin: 0 0 3px; color: var(--muted); font-size: 10px; line-height: 1.65; }
+.experience-description { margin: 10px 0 0; font-size: 11px; line-height: 1.85; }
+.experience-skills { display: flex; align-items: flex-start; gap: 6px; font-size: 10px; font-weight: 550; margin: 8px 0 0; line-height: 1.65; }
+.experience-skills svg { flex: 0 0 auto; margin-top: 1px; }
+
+/* Combined skills and technologies */
+.skills-section { position: relative; isolation: isolate; margin-top: 88px; padding-top: 25px; }
+.skills-section::before { content: ""; position: absolute; z-index: -1; inset: 0 -16px -20px; background-image: linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px); background-size: 52px 52px; mask-image: linear-gradient(transparent,#000 8%,#000 92%,transparent); }
+.section-anchor { position: absolute; top: 0; }
+.skills-section > h2 { margin: 0; font-size: clamp(30px,4.2vw,52px); font-weight: 300; line-height: 1.3; letter-spacing: -2.5px; }
+.skills-heading-accent { width: 78px; height: 3px; margin: 26px 0 42px; background: linear-gradient(90deg,#fff,transparent); }
+.tech-stack-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.tech-card { min-width: 0; min-height: 282px; padding: 25px 22px; background: #101010; border: 1px solid #2b2b2b; border-radius: 23px; }
+.tech-card h3 { display: flex; align-items: center; gap: 10px; color: #e6e6e6; font-size: 16px; font-weight: 450; margin: 0 0 21px; letter-spacing: -.5px; }
 .tech-card-icon { flex: 0 0 auto; color: #fff; filter: drop-shadow(0 0 4px #ffffffb3) drop-shadow(0 0 11px #ffffff66); }
 .tech-badges { display: flex; flex-wrap: wrap; gap: 8px 7px; margin: 0; padding: 0; list-style: none; }
-.tech-badges li { max-width: 100%; padding: 5px 10px; border: 1px solid #ffffff40; border-radius: 999px; background: #151515; color: #f0f0f0; font-size: 10px; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
-.skills-list { border-top: 1px solid var(--line); }
-.skill-group { padding: 20px 0; border-bottom: 1px solid var(--line); }.skill-group:first-child { padding-top: 19px; }.skill-group h3 { color: var(--subtle); font-size: 9px; font-weight: 400; margin: 0 0 12px; }.skill-group ul { margin: 0; padding: 0; list-style: none; }.skill-chip { padding: 6px 9px; font-size: 9px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); background: var(--surface); transition: color .2s,border-color .2s; }.skill-chip:hover { border-color: var(--subtle); color: var(--foreground); }
+.tech-badges li { max-width: 100%; padding: 4px 10px; border: 1px solid #ffffff40; border-radius: 999px; background: #ffffff08; color: #f0f0f0; font-size: 11px; font-weight: 550; line-height: 1.35; overflow-wrap: anywhere; }
 .languages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }.language { padding-top: 17px; border-top: 1px solid var(--line); }.language-code { font-size: 9px; color: var(--subtle); }.language h3 { font-size: 14px; font-weight: 500; margin: 17px 0 10px; }.language p { font-size: 10px; color: var(--muted); line-height: 1.7; margin: 0; }.language p span { display: block; font-size: 8px; color: var(--subtle); margin-top: 5px; }
 #contact { margin-top: 90px; }.contact-content { border-top: 1px solid var(--line); padding-top: 30px; }.contact-eyebrow { color: var(--subtle); font-size: 8px; letter-spacing: 1.2px; }.contact-content h2 { font-size: 27px; font-weight: 450; line-height: 1.4; letter-spacing: -1px; margin: 17px 0; }.contact-content h2 span { color: var(--subtle); }.contact-content p { color: var(--muted); font-size: 11px; line-height: 1.9; margin: 0 0 23px; }.contact-link { display: inline-flex; gap: 30px; align-items: center; padding: 11px 15px; background: var(--foreground); color: var(--background); border-radius: 4px; font-size: 10px; }.contact-link:hover { opacity: .8; }.email-link { display: block; width: fit-content; font-size: 9px; color: var(--subtle); margin-top: 16px; overflow-wrap: anywhere; }.email-link:hover { color: var(--foreground); }
 .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid var(--line); margin-top: 74px; padding: 25px 0 30px; font-size: 8px; color: var(--subtle); }.site-footer > div { display: flex; align-items: center; gap: 17px; }.site-footer a { display: flex; align-items: center; gap: 8px; }.site-footer a:hover { color: var(--foreground); }.footer-divider { height: 12px; width: 1px; background: var(--line); }
@@ -203,5 +224,9 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 @media (max-width: 520px) { .site-shell { padding: 0 18px; }.hero h1 { font-size: 31px; }.hero-edition { display: none; }.site-header nav { gap: 13px; font-size: 9px; }.theme-switch button { width: 26px; height: 26px; }.project-grid { grid-template-columns: 1fr; gap: 27px; }.project-wide { display: block; }.project-art { aspect-ratio: 1.7; }.project-wide .project-art { aspect-ratio: 1.7; }.project-wide .project-info { padding-top: 16px; }.project-meta { flex-direction: row; font-size: 8px; }.texmart-inner strong,.klean-inner strong { font-size: 29px; }.texmart-inner { padding: 20px; }.product-orbit { top: 28%; right: 0; }.product-laptop { width: 130px; height: 130px; }.product-headphones { width: 65px; height: 65px; }.paper-stack { width: 30%; height: 65%; top: 28%; right: 9%; }.paper-stack span { font-size: 8px; }.paper-stack svg { width: 33px; }.paper-stack > div:nth-child(3) { gap: 10px; }.klean-inner { padding-top: 20px; }.hero-bottom > span { max-width: 118px; line-height: 1.7; }.activity-stat { padding-left: 12px; }.activity-stat span { font-size: 7px; }.language p span { max-width: 80px; }.site-footer { font-size: 7px; }.site-footer > div { gap: 10px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }*,*::before,*::after { animation: none !important; transition: none !important; } }
 
-@media (max-width: 700px) { .tech-card { padding: 20px; } .tech-card h3 { font-size: 14px; } }
-@media (max-width: 520px) { .tech-stack-grid { grid-template-columns: 1fr; gap: 14px; } .tech-card { min-height: 145px; padding: 23px; } .tech-card h3 { font-size: 16px; margin-bottom: 20px; } .tech-badges li { font-size: 11px; } }
+@media (max-width: 950px) { .tech-stack-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .tech-card { min-height: 245px; } }
+@media (max-width: 700px) { .skills-section { margin-top: 60px; padding-top: 10px; } .skills-section > h2 { font-size: clamp(26px,5vw,35px); letter-spacing: -1.5px; } .skills-heading-accent { margin: 21px 0 30px; } .tech-card { padding: 22px 20px; } .tech-card h3 { font-size: 14px; } }
+@media (max-width: 620px) { .tech-stack-grid { grid-template-columns: 1fr; gap: 16px; } .tech-card { min-height: 190px; padding: 25px; } .tech-card h3 { font-size: 17px; margin-bottom: 21px; } .tech-badges li { font-size: 11px; } }
+@media (max-width: 900px) { .experience-section { margin-left: 145px; } }
+@media (max-width: 700px) { .experience-section { margin: 57px 0 0; } .experience-panel { padding: 22px 18px 3px; } .experience-details h3 { font-size: 13px; } }
+@media (max-width: 390px) { .experience-panel { padding: 21px 14px 3px; } .experience-job { grid-template-columns: 40px minmax(0,1fr); gap: 10px; } .company-logo { transform: scale(.833333); transform-origin: top left; } .experience-description { font-size: 10px; } }

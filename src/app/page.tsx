@@ -3,8 +3,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialLinks } from "@/components/social-links";
 import { ProjectPreview } from "@/components/project-preview";
 import { GithubActivity } from "@/components/github-activity";
-import { TechStack } from "@/components/tech-stack";
-import { profile, projects, skillGroups } from "@/lib/portfolio";
+import { SkillsTechnologies } from "@/components/skills-technologies";
+import { WorkExperience } from "@/components/work-experience";
+import { profile, projects } from "@/lib/portfolio";
 
 function Section({ id, number, title, children }: { id: string; number: string; title: string; children: React.ReactNode }) {
   return <section id={id} className="section-row"><div className="section-label"><span>{number}</span><h2>{title}</h2></div><div className="min-w-0">{children}</div></section>;
@@ -16,14 +17,14 @@ export default function Home() {
     <div className="site-shell" id="top">
       <header className="site-header">
         <a href="#top" aria-label="Husan Suleyman, home" className="monogram"><svg viewBox="0 0 32 36" width="28" height="32" aria-hidden="true"><path fill="currentColor" d="M2 2h8v12h12V2h8v32h-8V22H10v12H2z" /></svg></a>
-        <nav aria-label="Main navigation" className="flex items-center gap-6"><a href="#projects">Projects</a><a href="#stack">Stack</a><a href="#contact">Contact</a></nav>
+        <nav aria-label="Main navigation" className="flex items-center gap-6"><a href="#projects">Projects</a><a href="#stack">Skills</a><a href="#contact">Contact</a></nav>
         <ThemeToggle />
       </header>
       <main id="main">
         <section className="hero" aria-labelledby="name">
           <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span><span className="hero-edition">VOL. 2026</span></div>
           <h1 id="name">Husan Suleyman</h1>
-          <div className="role-line"><span className="status-dot" /><span>Junior backend engineer</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
+          <div className="role-line"><span className="status-dot" /><span>{profile.role}</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
           <div className="about-copy" aria-label="About me">
             <p>I love building things and solving problems. I enjoy working on backend systems, building SaaS products, and developing scalable backend solutions that people actually use. I care about performance, clean architecture, and code that just works.</p>
             <p>I do my best work on small teams that ship often and obsess over the details. If I&apos;m not coding, I&apos;m probably exploring new dev tools, deep in a tech talk, or working on my next SaaS idea.</p>
@@ -47,15 +48,9 @@ export default function Home() {
 
         <Section id="activity" number="02" title="Activity"><GithubActivity /></Section>
 
-        <Section id="stack" number="03" title="Tech stack">
-          <div className="section-intro"><p>The tools behind the work.</p></div>
-          <TechStack />
-        </Section>
+        <WorkExperience />
 
-        <Section id="skills" number="04" title="Skills">
-          <div className="section-intro"><p>My growing engineering toolkit.</p></div>
-          <div className="skills-list">{skillGroups.map(group => <div key={group.name} className="skill-group"><h3>{group.name}</h3><ul className="flex flex-wrap gap-2">{group.skills.map(skill => <li className="skill-chip" key={skill}>{skill}</li>)}</ul></div>)}</div>
-        </Section>
+        <SkillsTechnologies />
 
         <Section id="languages" number="05" title="Languages"><div className="languages-grid">{[{ name: "Uzbek", code: "UZ", level: "Native", detail: "My first language" }, { name: "Russian", code: "RU", level: "Fluent", detail: "Comfortable in conversation" }, { name: "English", code: "EN", level: "B2", detail: "Upper intermediate" }].map(language => <div className="language" key={language.name}><span className="language-code">{language.code}</span><h3>{language.name}</h3><p>{language.level}<span>{language.detail}</span></p></div>)}</div></Section>
 

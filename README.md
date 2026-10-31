@@ -1,6 +1,6 @@
 # Husan Suleyman — Portfolio
 
-A responsive, pitch black portfolio for a junior backend engineer, built with Next.js 16, React 19, TypeScript, Tailwind CSS 4, and Tabler Icons.
+A responsive, pitch black portfolio for a Backend Engineer, built with Next.js 16, React 19, TypeScript, Tailwind CSS 4, and Tabler Icons.
 
 ## Run locally
 
@@ -27,6 +27,12 @@ npm start
 
 No database, paid services, API keys, or environment variables are required. The GitHub calendar uses a Next.js server route, so deploy as a normal Next.js application rather than a static HTML export.
 
+## SEO and social sharing
+
+The site includes a canonical URL, Open Graph website metadata, a large X/Twitter card, author information, a sitemap, and robots instructions. The 1200 × 630 sharing image uses the black-and-white branding and a locally bundled JetBrains Mono font, with no external font request at build or request time. The font license is included in `assets/fonts/OFL.txt`.
+
+Vercel's production domain supplies absolute sharing and sitemap URLs automatically through `VERCEL_PROJECT_PRODUCTION_URL`. If you use a custom canonical domain, set the optional `SITE_URL` environment variable to its full HTTPS address in Vercel before deploying. For local testing, copy `.env.example` to `.env.local` and set `SITE_URL` there. Never commit `.env.local`. Without a configured domain or Vercel environment, links use the local preview address. Preview deployments are marked noindex to avoid duplicate search results.
+
 ## Update your content
 
 - Edit your name, role, social links, projects, tech stack, and skills in `src/lib/portfolio.ts`.
@@ -34,7 +40,8 @@ No database, paid services, API keys, or environment variables are required. The
 - Update colors and responsive styling in `src/app/globals.css`.
 - When Klean or Texmart is deployed, add its URL in `src/lib/portfolio.ts` and update its status. It will automatically become a clickable project.
 - Klean and Texmart use lightweight illustrative covers, clearly labeled on the page. Swarovski uses your supplied screenshot in `public/projects/swarovski.png`.
-- Tech stack categories use responsive black-and-white cards with always-glowing icons in `src/components/tech-stack.tsx`.
+- The combined Skills & Technologies section uses six responsive black-and-white cards with always-glowing icons in `src/components/skills-technologies.tsx`. Edit its grouped skills in `src/lib/portfolio.ts`.
+- The LinkedIn-style Experience section contains only the three roles from the supplied screenshot. Edit them in `src/lib/portfolio.ts`. The company-logo tiles use the supplied reference image.
 
 ## GitHub activity
 
