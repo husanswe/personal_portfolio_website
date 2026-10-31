@@ -202,8 +202,10 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .company-logo-hermes { background-position: -23px -396px; }
 .experience-details h3 { margin: 0 0 4px; font-size: 14px; line-height: 1.45; font-weight: 600; }
 .experience-company { margin: 0 0 3px; font-size: 11px; line-height: 1.65; }
-.experience-website { display: flex; align-items: center; gap: 5px; width: fit-content; padding: 4px 0; margin: 0 0 4px; color: var(--muted); font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; }
-.experience-website:hover { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
+.experience-website { display: flex; align-items: center; gap: 5px; width: fit-content; padding: 4px 0; margin: 0 0 4px; color: #fff; font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; text-shadow: 0 0 5px #ffffff99, 0 0 12px #ffffff55; }
+.experience-website svg { filter: drop-shadow(0 0 4px #ffffffb3) drop-shadow(0 0 10px #ffffff66); }
+.experience-website:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+[data-theme="light"] .experience-website { background: #0a0a0a; padding-inline: 7px; border-radius: 4px; }
 .experience-meta { margin: 0 0 3px; color: var(--muted); font-size: 10px; line-height: 1.65; }
 .experience-description { margin: 10px 0 0; font-size: 11px; line-height: 1.85; }
 .experience-skills { display: flex; align-items: flex-start; gap: 6px; font-size: 10px; font-weight: 550; margin: 8px 0 0; line-height: 1.65; }
