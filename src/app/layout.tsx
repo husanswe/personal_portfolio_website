@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { getSiteUrl } from "@/lib/site-url";
 import { profile } from "@/lib/portfolio";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import "@fontsource-variable/jetbrains-mono";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const title = `${profile.name} — ${profile.role}`;
@@ -40,7 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
-      <body>{children}</body>
+      <body><SmoothScroll />{children}</body>
     </html>
   );
 }
