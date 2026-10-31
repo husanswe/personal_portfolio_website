@@ -65,7 +65,8 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .hero { display: grid; grid-template-columns: minmax(0,1fr) 340px; grid-template-areas: "intro portrait" "about portrait" "social portrait" "footer portrait"; column-gap: 54px; max-width: none; margin-left: 0; padding: 78px 0 0; }
 .hero-intro { grid-area: intro; min-width: 0; }
 .hero-portrait { grid-area: portrait; position: relative; align-self: center; width: 100%; aspect-ratio: 3 / 4; border: 1px solid #353535; border-radius: 10px; overflow: hidden; background: #000; box-shadow: 0 0 34px #ffffff05; }
-.hero-photo { object-fit: cover; object-position: center; }
+/* Compensate for the portrait's uneven black padding to center the subject. */
+.hero-photo { object-fit: cover; object-position: center; transform: translate(-3.5%, -8%); }
 .hero-socials { grid-area: social; min-width: 0; }
 .hero .about-copy { grid-area: about; min-width: 0; }
 .hero .hero-bottom { grid-area: footer; min-width: 0; }
