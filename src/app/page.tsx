@@ -1,9 +1,10 @@
-import { IconArrowUpRight, IconArrowUp, IconBrandGithub, IconTerminal2, IconArrowRight, IconCircleFilled } from "@tabler/icons-react";
+import { IconArrowUpRight, IconArrowUp, IconBrandGithub, IconArrowRight, IconCircleFilled } from "@tabler/icons-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { SocialLinks } from "@/components/social-links";
 import { ProjectPreview } from "@/components/project-preview";
 import { GithubActivity } from "@/components/github-activity";
-import { profile, projects, skillGroups, stack } from "@/lib/portfolio";
+import { TechStack } from "@/components/tech-stack";
+import { profile, projects, skillGroups } from "@/lib/portfolio";
 
 function Section({ id, number, title, children }: { id: string; number: string; title: string; children: React.ReactNode }) {
   return <section id={id} className="section-row"><div className="section-label"><span>{number}</span><h2>{title}</h2></div><div className="min-w-0">{children}</div></section>;
@@ -14,14 +15,14 @@ export default function Home() {
     <a href="#main" className="skip-link">Skip to content</a>
     <div className="site-shell" id="top">
       <header className="site-header">
-        <a href="#top" aria-label="Husan Suleyman, home" className="monogram">hs<span>.</span></a>
+        <a href="#top" aria-label="Husan Suleyman, home" className="monogram"><svg viewBox="0 0 32 36" width="28" height="32" aria-hidden="true"><path fill="currentColor" d="M2 2h8v12h12V2h8v32h-8V22H10v12H2z" /></svg></a>
         <nav aria-label="Main navigation" className="flex items-center gap-6"><a href="#projects">Projects</a><a href="#stack">Stack</a><a href="#contact">Contact</a></nav>
         <ThemeToggle />
       </header>
       <main id="main">
         <section className="hero" aria-labelledby="name">
           <div className="hero-eyebrow"><span>PERSONAL PORTFOLIO</span><span className="hero-edition">VOL. 2026</span></div>
-          <h1 id="name">Husan Suleyman<span className="name-period">.</span></h1>
+          <h1 id="name">Husan Suleyman</h1>
           <div className="role-line"><span className="status-dot" /><span>Junior backend engineer</span><span className="role-divider">/</span><span className="role-stack">PHP & Laravel</span></div>
           <div className="about-copy" aria-label="About me">
             <p>I love building things and solving problems. I enjoy working on backend systems, building SaaS products, and developing scalable backend solutions that people actually use. I care about performance, clean architecture, and code that just works.</p>
@@ -41,18 +42,14 @@ export default function Home() {
               <p>{project.description}</p><div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div></div>
             </article>)}
           </div>
-          <p className="project-footnote"><span className="tiny-line" />Project covers are illustrative. Klean and Texmart will be live soon.</p>
+          <p className="project-footnote"><span className="tiny-line" />Klean and Texmart covers are illustrative. Both projects will be live soon.</p>
         </Section>
 
         <Section id="activity" number="02" title="Activity"><GithubActivity /></Section>
 
         <Section id="stack" number="03" title="Tech stack">
-          <div className="section-intro"><p>The tools behind the work.</p><IconTerminal2 size={17} stroke={1.5} /></div>
-          <div className="terminal"><div className="terminal-heading"><span className="terminal-dots"><i /><i /><i /></span><span>stack.json</span><span>~/husan</span></div>
-            <div className="terminal-command"><span>husan@portfolio</span><span className="text-muted">:~$</span> cat stack.json</div>
-            <div className="stack-code"><span className="bracket">{"{"}</span>{stack.map((group, index) => <div className="stack-row" key={group.key}><span className="stack-key">&quot;{group.key}&quot;</span><span>: [ </span><span>{group.values.map((value, valueIndex) => <span key={value}><span className="stack-value">&quot;{value}&quot;</span>{valueIndex < group.values.length - 1 ? ", " : ""}</span>)}</span><span> ]{index < stack.length - 1 ? "," : ""}</span></div>)}<span className="bracket">{"}"}</span></div>
-            <div className="terminal-bottom"><span><span className="status-dot" />Always learning</span><span>UTF-8 · JSON</span></div>
-          </div>
+          <div className="section-intro"><p>The tools behind the work.</p></div>
+          <TechStack />
         </Section>
 
         <Section id="skills" number="04" title="Skills">

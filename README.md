@@ -33,7 +33,8 @@ No database, paid services, API keys, or environment variables are required. The
 - Edit the About and Languages sections in `src/app/page.tsx`.
 - Update colors and responsive styling in `src/app/globals.css`.
 - When Klean or Texmart is deployed, add its URL in `src/lib/portfolio.ts` and update its status. It will automatically become a clickable project.
-- Project covers are lightweight illustrations, clearly labeled on the page. Replace them with real screenshots in `src/components/project-preview.tsx` whenever you are ready.
+- Klean and Texmart use lightweight illustrative covers, clearly labeled on the page. Swarovski uses your supplied screenshot in `public/projects/swarovski.png`.
+- Tech stack categories use responsive black-and-white cards with always-glowing icons in `src/components/tech-stack.tsx`.
 
 ## GitHub activity
 

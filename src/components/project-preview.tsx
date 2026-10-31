@@ -1,6 +1,7 @@
-import { IconArrowUpRight, IconCode, IconDeviceLaptop, IconHeadphones, IconShoppingBag, IconSparkles, IconSearch } from "@tabler/icons-react";
+import Image from "next/image";
+import { IconArrowUpRight, IconCode, IconDeviceLaptop, IconHeadphones, IconShoppingBag, IconSearch } from "@tabler/icons-react";
 
-// These are intentionally illustrative covers, not screenshots of unpublished projects.
+// Unpublished projects use illustrative covers; Swarovski uses the supplied screenshot.
 export function ProjectPreview({ kind }: { kind: string }) {
   if (kind === "texmart") return <div className="project-art texmart-art" aria-label="Illustrative Texmart project cover">
     <div className="preview-toolbar"><span className="texmart-brand">texmart<span>®</span></span><span className="preview-search"><IconSearch size={9} />Find your next upgrade</span><IconShoppingBag size={12} /></div>
@@ -14,9 +15,7 @@ export function ProjectPreview({ kind }: { kind: string }) {
     <div className="paper-stack"><div /><div /><div><IconCode size={33} stroke={1} /><span>Ideas worth<br />putting into words.</span></div></div>
     <div className="art-caption">A JOURNAL BUILT WITH LARAVEL</div>
   </div>;
-  return <div className="project-art swarovski-art" aria-label="Illustrative Swarovski frontend project cover">
-    <div className="swarovski-toolbar"><span>SWAROVSKI</span><IconShoppingBag size={12} stroke={1} /></div>
-    <div className="jewel-scene"><div className="jewel-halo" /><div className="jewel-ring" /><div className="jewel-stone"><IconSparkles size={20} stroke={0.8} /></div><span className="jewel-sparkle one">✦</span><span className="jewel-sparkle two">✧</span></div>
-    <div className="swarovski-copy"><span>Wonder, reimagined.</span><span>THE FRONTEND COLLECTION <IconArrowUpRight size={9} /></span></div>
+  return <div className="project-art swarovski-art">
+    <Image src="/projects/swarovski.png" width={1905} height={918} sizes="(max-width: 520px) 100vw, (max-width: 700px) 50vw, 430px" alt="Screenshot of Husan's Swarovski frontend project, featuring the Spring–Summer 2025 jewelry collection" className="project-screenshot" />
   </div>;
 }
