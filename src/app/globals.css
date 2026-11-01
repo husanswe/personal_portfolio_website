@@ -159,13 +159,13 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .activity-panel { border: 1px solid #ffffff52; border-radius: 7px; background: var(--background); box-shadow: 0 0 0 1px #ffffff07, 0 0 22px #ffffff09, inset 0 0 19px #ffffff02; padding: 21px 19px 17px; position: relative; }
 [data-theme="light"] .activity-panel { border-color: #3335; box-shadow: 0 0 18px #00000008; }
 .calendar-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; padding: 2px 0 7px; }
-.calendar-grid { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 7px; min-width: 570px; }
-.calendar-weekdays { display: grid; grid-template-rows: 20px repeat(7, 10px); row-gap: 3px; font-size: 11px; line-height: 10px; color: var(--subtle); }
+.calendar-grid { --calendar-cell-size: 10px; --calendar-cell-gap: 3px; display: grid; grid-template-columns: 32px max-content; gap: 7px; width: max-content; }
+.calendar-weekdays { display: grid; grid-template-rows: 20px repeat(7, var(--calendar-cell-size)); row-gap: var(--calendar-cell-gap); font-size: 11px; line-height: var(--calendar-cell-size); color: var(--subtle); }
 .calendar-weekdays span:nth-child(1) { grid-row: 3; }.calendar-weekdays span:nth-child(2) { grid-row: 5; }.calendar-weekdays span:nth-child(3) { grid-row: 7; }
-.calendar-weeks { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; }
-.calendar-week { display: grid; grid-template-rows: 20px repeat(7,10px); row-gap: 3px; min-width: 0; }
+.calendar-weeks { display: grid; grid-auto-flow: column; grid-auto-columns: var(--calendar-cell-size); gap: var(--calendar-cell-gap); }
+.calendar-week { display: grid; grid-template-rows: 20px repeat(7,var(--calendar-cell-size)); row-gap: var(--calendar-cell-gap); min-width: 0; }
 .calendar-month { font-size: 11px; line-height: 16px; color: var(--subtle); white-space: nowrap; }
-.calendar-day { width: 100%; height: 10px; border-radius: 1.5px; padding: 0; border: 0; background: var(--graph-0); }
+.calendar-day { width: var(--calendar-cell-size); height: var(--calendar-cell-size); aspect-ratio: 1; border-radius: 1.5px; padding: 0; border: 0; background: var(--graph-0); }
 .calendar-day[data-level="1"], .legend-cell[data-level="1"] { background: var(--graph-1); }
 .calendar-day[data-level="2"], .legend-cell[data-level="2"] { background: var(--graph-2); }
 .calendar-day[data-level="3"], .legend-cell[data-level="3"] { background: var(--graph-3); }
