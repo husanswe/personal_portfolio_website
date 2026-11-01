@@ -57,4 +57,9 @@ export const projects = [
     description: "A frontend recreation of the Swarovski jewelry website, built with HTML, CSS, and Tailwind CSS. Hosted on Netlify.",
     tags: ["HTML", "CSS", "Tailwind CSS", "Netlify"], url: "https://swarovski-clone.netlify.app/",
   },
+  {
+    slug: "breed", name: "Breed", category: "Portfolio website", status: "Live website",
+    description: "A frontend recreation of the Breed portfolio template, built with HTML, CSS, and JavaScript. Hosted on Netlify.",
+    tags: ["HTML", "CSS", "JavaScript", "Netlify"], url: "https://breed-portfolio-clone.netlify.app/",
+  },
 ] as const;

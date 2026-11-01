@@ -40,7 +40,7 @@ Vercel's production domain supplies absolute sharing and sitemap URLs automatica
 - Update colors and responsive styling in `src/app/globals.css`.
 - The hero uses your supplied portrait in `public/images/husan-suleyman.png`, with a rectangular frame and subtle 10px corners beside the text on large screens and a centered portrait below the heading on phones. Next.js serves responsive image sizes.
 - When Klean or Texmart is deployed, add its URL in `src/lib/portfolio.ts` and update its status. It will automatically become a clickable project.
-- Klean and Texmart use lightweight illustrative covers, clearly labeled on the page. Swarovski uses your supplied screenshot in `public/projects/swarovski.png`.
+- Texmart uses a lightweight illustrative cover, clearly labeled on the page. Klean, Swarovski, and Breed use your supplied screenshots in `public/projects/`. The four projects form a two-column grid that stacks on phones; live projects have clickable previews and titles.
 - The combined Skills & Technologies section uses six responsive black-and-white cards with always-glowing icons in `src/components/skills-technologies.tsx`. Edit its grouped skills in `src/lib/portfolio.ts`.
 - The LinkedIn-style Experience section contains only the three roles from the supplied screenshot. Edit them in `src/lib/portfolio.ts`. The company-logo tiles use the supplied reference image.
 

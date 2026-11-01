@@ -40,9 +40,9 @@ export default function Home() {
         </section>
 
         <Section id="projects" number="01" title="Projects">
-          <div className="section-intro"><p>A few things I&apos;ve been building.</p><span>03 PROJECTS</span></div>
+          <div className="section-intro"><p>A few things I&apos;ve been building.</p><span>{String(projects.length).padStart(2, "0")} PROJECTS</span></div>
           <div className="project-grid">
-            {projects.map((project, index) => <article key={project.slug} className={`project-card ${index === 2 ? "project-wide" : ""}`}>
+            {projects.map(project => <article key={project.slug} className="project-card">
               {project.url ? <a href={project.url} target="_blank" rel="noopener noreferrer" className="art-link" aria-label={`Visit ${project.name}, opens in a new tab`}><ProjectPreview kind={project.slug} /><span className="preview-open"><IconArrowUpRight size={17} /></span></a> : <ProjectPreview kind={project.slug} />}
               <div className="project-info"><div className="project-meta"><span>{project.category}</span><span className={`project-status ${project.url ? "is-live" : ""}`}><IconCircleFilled size={5} />{project.status}</span></div>
               <h3>{project.url ? <a href={project.url} target="_blank" rel="noopener noreferrer">{project.name}<IconArrowUpRight size={18} /></a> : project.name}</h3>
