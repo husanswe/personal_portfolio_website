@@ -11,7 +11,7 @@ export const profile = {
 export const skillGroups = [
   { id: "frontend", name: "Frontend", skills: ["HTML5", "CSS3", "Bootstrap 5", "Tailwind CSS 4", "JavaScript", "Vue.js"] },
   { id: "backend", name: "Backend", skills: ["PHP", "Composer", "Laravel", "Laravel Octane", "REST APIs"] },
-  { id: "devops", name: "Tools & DevOps", skills: ["Apache HTTP Server", "Nginx", "Ubuntu Linux", "Docker", "XAMPP"] },
+  { id: "devops", name: "Tools & DevOps", skills: ["Apache HTTP Server", "Nginx", "Ubuntu Linux", "Docker", "XAMPP", "Postman"] },
   { id: "laravel", name: "Laravel ecosystem", skills: ["Blade", "Sanctum", "Laravel Eloquent", "Filament PHP", "Laravel Livewire", "TALL stack"] },
   { id: "testing", name: "Testing", skills: ["PHPUnit", "Pest"] },
   { id: "databases", name: "Databases", skills: ["MySQL", "PostgreSQL"] },
