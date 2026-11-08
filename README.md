@@ -25,7 +25,7 @@ npm start
 3. Keep the detected **Next.js** framework and default build settings.
 4. Click **Deploy**.
 
-No database, paid services, API keys, or environment variables are required. The GitHub calendar uses a Next.js server route, so deploy as a normal Next.js application rather than a static HTML export.
+No database or paid services are required. An optional free `GITHUB_TOKEN` makes the GitHub graph real-time (see below). The GitHub calendar uses a Next.js server route, so deploy as a normal Next.js application rather than a static HTML export.
 
 ## SEO and social sharing
 
@@ -46,17 +46,20 @@ Vercel's production domain supplies absolute sharing and sitemap URLs automatica
 
 ## GitHub activity
 
-The calendar fetches the actual public contribution calendar for `husanswe` from GitHub on the server. The year selector includes every year from 2023, when the account was opened in February, through the current year, newest first. It automatically selects the current year and adds new year options as time passes. Selecting an earlier year loads that year's actual daily activity, totals, and streaks. The graph shows a full January–December calendar, daily hover/focus/tap details, total contributions, current or year-end streak, longest streak within the selected year, and active days.
+The Activity section shows the same contribution graph as the GitHub profile page: the last 12 months, Sunday-to-Saturday columns, five intensity levels, hover/tap details per day, and the total contributions in the last year.
 
-The browser refreshes once a minute while the page is visible and when returning to the tab. Server responses are cached for 60 seconds. GitHub itself may take additional time to reflect new activity; this is near-live rather than an instant stream. The calendar counts **contributions**, which can include commits, pull requests, reviews, and issues; it does not falsely label every contribution as a commit. Private activity is limited to what your GitHub profile makes public.
+Data comes from the server route `src/app/api/github/route.ts`:
 
-The public calendar requires no token. If GitHub is temporarily unavailable, the site displays an honest error and retry button, or keeps the last successful result when a background refresh fails. It never fabricates activity. GitHub could change its public HTML format; `src/lib/github-calendar.ts` validates the complete calendar and fails explicitly if the format changes.
+1. **Official GitHub GraphQL API (recommended, real-time).** Create a GitHub personal access token (classic, no scopes needed) and add it in Vercel as the `GITHUB_TOKEN` environment variable, then redeploy. The graph then matches github.com exactly and updates within about a minute.
+2. **Open GitHub contributions API (fallback, no token).** Without `GITHUB_TOKEN`, or if GraphQL fails, the route uses [github-contributions-api](https://github.com/grubersjoe/github-contributions-api). That service caches GitHub's data, so new activity can take longer to appear.
+
+The browser refreshes the graph every minute while the page is visible. The graph counts **contributions** (commits, pull requests, reviews, issues), exactly as GitHub does. Private activity appears only if your GitHub profile shows private contributions.
 
 ## Theme and accessibility
 
 All interface text, including project-cover illustrations and form controls, uses the locally hosted JetBrains Mono variable font.
 
-Dark mode is the default, regardless of the device theme. The sun and moon controls save the visitor's choice locally and restore it before the page paints. The site includes semantic sections, a skip link, visible keyboard focus, reduced motion support, and touch-friendly social links. The activity calendar scrolls within its panel on narrow screens without widening the page.
+Dark mode is the default, regardless of the device theme. The sun and moon controls save the visitor's choice locally and restore it before the page paints. The site includes semantic sections, a skip link, visible keyboard focus, reduced motion support, and touch-friendly social links. The activity graph scrolls within its panel on narrow screens without widening the page.
 
 ## Checks
 
@@ -66,7 +69,7 @@ npm test
 npm run build
 ```
 
-Calendar tests cover streak boundaries, future dates, weekday alignment, and malformed upstream data. If `.tools/github-calendar.html` is present locally, they also check the parser against the downloaded real calendar.
+Calendar tests cover both data sources, weekday alignment, month labels, and malformed upstream data.
 
 ## Create a repository
 

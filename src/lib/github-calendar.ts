@@ -1,44 +1,69 @@
-// Husan's GitHub account was opened in February 2023.
-export const GITHUB_FIRST_YEAR = 2023;
+export const GITHUB_USERNAME = "husanswe";
 
 export type ContributionDay = { date: string; count: number; level: number };
 export type CalendarData = {
   username: string;
-  year: number;
   total: number;
   days: ContributionDay[];
+  source: "github-graphql" | "github-contributions-api";
   fetchedAt: string;
 };
 
-function attributes(tag: string): Record<string, string> {
-  return Object.fromEntries([...tag.matchAll(/([\w-]+)\s*=\s*["']([^"']*)["']/g)].map(match => [match[1], match[2]]));
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function validDay(day: ContributionDay) {
+  return DATE.test(day.date) && Number.isInteger(day.count) && day.count >= 0 && Number.isInteger(day.level) && day.level >= 0 && day.level <= 4;
 }
 
-/** Read the public calendar and its exact tooltip counts; never invent missing data. */
-export function parseCalendar(html: string, year: number): ContributionDay[] {
-  const tooltips = new Map<string, number>();
-  for (const match of html.matchAll(/<tool-tip\b([^>]*)>([\s\S]*?)<\/tool-tip>/g)) {
-    const id = attributes(match[1]).for;
-    const text = match[2].replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").trim();
-    const count = text.match(/^(No|[\d,]+)\s+contributions?\b/i)?.[1];
-    if (id && count) tooltips.set(id, /^no$/i.test(count) ? 0 : Number(count.replaceAll(",", "")));
-  }
-  const byDate = new Map<string, ContributionDay>();
-  for (const match of html.matchAll(/<(?:td|rect)\b[^>]*\bdata-date=["'][^"']+["'][^>]*>/g)) {
-    const attr = attributes(match[0]);
-    const date = attr["data-date"];
-    if (!date?.startsWith(`${year}-`)) continue;
-    const count = attr["data-count"] !== undefined ? Number(attr["data-count"]) : tooltips.get(attr.id);
-    const level = Number(attr["data-level"]);
-    if (!Number.isInteger(count) || count! < 0 || !Number.isInteger(level) || level < 0 || level > 4) throw new Error("Unrecognized GitHub calendar format");
-    byDate.set(date, { date, count: count!, level });
-  }
-  const days = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
-  const expected = new Date(Date.UTC(year + 1, 0, 1)).getTime() - new Date(Date.UTC(year, 0, 1)).getTime();
-  if (days.length !== expected / 86_400_000) throw new Error("GitHub returned an incomplete calendar");
-  return days;
+function finish(days: ContributionDay[]): ContributionDay[] {
+  if (!days.length || !days.every(validDay)) throw new Error("Unrecognized GitHub contribution data");
+  return [...days].sort((a, b) => a.date.localeCompare(b.date));
 }
 
+const GRAPHQL_LEVELS: Record<string, number> = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 };
+
+export const CONTRIBUTIONS_QUERY = `query($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks { contributionDays { date contributionCount contributionLevel } }
+      }
+    }
+  }
+}`;
+
+type GraphqlResponse = {
+  data?: { user?: { contributionsCollection?: { contributionCalendar?: {
+    totalContributions: number;
+    weeks: { contributionDays: { date: string; contributionCount: number; contributionLevel: string }[] }[];
+  } } } | null };
+  errors?: { message: string }[];
+};
+
+/** Official GitHub GraphQL API: the same calendar github.com shows on the profile (last 12 months). */
+export function fromGraphql(json: GraphqlResponse): { total: number; days: ContributionDay[] } {
+  if (json.errors?.length) throw new Error(json.errors[0].message);
+  const calendar = json.data?.user?.contributionsCollection?.contributionCalendar;
+  if (!calendar) throw new Error("GitHub user not found");
+  const days = finish(calendar.weeks.flatMap(week => week.contributionDays).map(day => ({
+    date: day.date,
+    count: day.contributionCount,
+    level: GRAPHQL_LEVELS[day.contributionLevel] ?? -1,
+  })));
+  return { total: calendar.totalContributions, days };
+}
+
+type OpenApiResponse = { total?: Record<string, number>; contributions?: ContributionDay[] };
+
+/** Open GitHub contributions API (github.com/grubersjoe/github-contributions-api), no token required. */
+export function fromOpenApi(json: OpenApiResponse): { total: number; days: ContributionDay[] } {
+  const days = finish(json.contributions ?? []);
+  const total = json.total?.lastYear ?? days.reduce((sum, day) => sum + day.count, 0);
+  return { total, days };
+}
+
+/** Columns of 7 days (Sunday → Saturday), exactly like the GitHub profile graph. */
 export function getCalendarWeeks(days: ContributionDay[]): (ContributionDay | null)[][] {
   if (!days.length) return [];
   const offset = new Date(`${days[0].date}T00:00:00Z`).getUTCDay();
@@ -52,18 +77,22 @@ export function getCalendarWeeks(days: ContributionDay[]): (ContributionDay | nu
   return weeks;
 }
 
-export function getStreaks(days: ContributionDay[], today: string) {
-  const elapsed = days.filter(day => day.date <= today);
-  let longest = 0;
-  let running = 0;
-  for (const day of elapsed) {
-    running = day.count > 0 ? running + 1 : 0;
-    longest = Math.max(longest, running);
-  }
-  // An empty today does not end yesterday's ongoing streak.
-  let end = elapsed.length - 1;
-  if (elapsed[end]?.date === today && elapsed[end].count === 0) end--;
-  let current = 0;
-  for (let index = end; index >= 0 && elapsed[index].count > 0; index--) current++;
-  return { current, longest, activeDays: elapsed.filter(day => day.count > 0).length };
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+/** One label per month at the week where it starts; a label with no room before the next is dropped (as GitHub does). */
+export function getMonthLabels(weeks: (ContributionDay | null)[][]): string[] {
+  const labels = weeks.map(() => "");
+  const starts: { index: number; month: number }[] = [];
+  weeks.forEach((week, index) => {
+    const first = week.find(day => day !== null);
+    if (!first) return;
+    const month = Number(first.date.slice(5, 7)) - 1;
+    if (starts.at(-1)?.month !== month) starts.push({ index, month });
+  });
+  starts.forEach((start, position) => {
+    const next = starts[position + 1];
+    if (next && next.index - start.index < 3) return;
+    labels[start.index] = MONTHS[start.month];
+  });
+  return labels;
 }

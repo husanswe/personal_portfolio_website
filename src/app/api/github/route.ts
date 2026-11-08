@@ -1,28 +1,52 @@
-import { NextRequest, NextResponse } from "next/server";
-import { GITHUB_FIRST_YEAR, parseCalendar } from "@/lib/github-calendar";
+import { NextResponse } from "next/server";
+import { CONTRIBUTIONS_QUERY, GITHUB_USERNAME, fromGraphql, fromOpenApi, type CalendarData } from "@/lib/github-calendar";
 
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
-  const currentYear = Math.max(GITHUB_FIRST_YEAR, new Date().getUTCFullYear());
-  const value = request.nextUrl.searchParams.get("year") ?? String(currentYear);
-  if (!/^\d{4}$/.test(value) || Number(value) < GITHUB_FIRST_YEAR || Number(value) > currentYear) {
-    return NextResponse.json({ error: `Please choose a valid year between ${GITHUB_FIRST_YEAR} and ${currentYear}.` }, { status: 400 });
-  }
-  const year = Number(value);
+const REVALIDATE = 60;
+
+async function loadFromGraphql(token: string) {
+  const response = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { Authorization: `bearer ${token}`, "Content-Type": "application/json", "User-Agent": "HusanSuleymanPortfolio/2.0" },
+    body: JSON.stringify({ query: CONTRIBUTIONS_QUERY, variables: { login: GITHUB_USERNAME } }),
+    next: { revalidate: REVALIDATE },
+    signal: AbortSignal.timeout(12_000),
+  });
+  if (!response.ok) throw new Error(`GitHub GraphQL API returned ${response.status}`);
+  return fromGraphql(await response.json());
+}
+
+async function loadFromOpenApi() {
+  const response = await fetch(`https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`, {
+    headers: { Accept: "application/json", "User-Agent": "HusanSuleymanPortfolio/2.0" },
+    next: { revalidate: REVALIDATE },
+    signal: AbortSignal.timeout(12_000),
+  });
+  if (!response.ok) throw new Error(`GitHub contributions API returned ${response.status}`);
+  return fromOpenApi(await response.json());
+}
+
+export async function GET() {
+  const token = process.env.GITHUB_TOKEN?.trim();
   try {
-    const response = await fetch(`https://github.com/users/husanswe/contributions?from=${year}-01-01&to=${year}-12-31`, {
-      headers: { Accept: "text/html", "User-Agent": "HusanSuleymanPortfolio/1.0" },
-      next: { revalidate: 60 },
-      signal: AbortSignal.timeout(12_000),
-    });
-    if (!response.ok) throw new Error(`GitHub calendar returned ${response.status}`);
-    const days = parseCalendar(await response.text(), year);
-    return NextResponse.json({ username: "husanswe", year, total: days.reduce((sum, day) => sum + day.count, 0), days, fetchedAt: new Date().toISOString() }, {
-      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=60" },
-    });
+    let result: { total: number; days: CalendarData["days"] };
+    let source: CalendarData["source"] = "github-contributions-api";
+    if (token) {
+      try {
+        result = await loadFromGraphql(token);
+        source = "github-graphql";
+      } catch (error) {
+        console.error("GitHub GraphQL unavailable, using open API:", error instanceof Error ? error.message : error);
+        result = await loadFromOpenApi();
+      }
+    } else {
+      result = await loadFromOpenApi();
+    }
+    const body: CalendarData = { username: GITHUB_USERNAME, ...result, source, fetchedAt: new Date().toISOString() };
+    return NextResponse.json(body, { headers: { "Cache-Control": `public, s-maxage=${REVALIDATE}, stale-while-revalidate=${REVALIDATE}` } });
   } catch (error) {
-    console.error("GitHub calendar unavailable:", error instanceof Error ? error.message : "Unknown error");
-    return NextResponse.json({ error: "GitHub activity is temporarily unavailable. Please try again or visit my GitHub profile." }, { status: 502, headers: { "Cache-Control": "no-store" } });
+    console.error("GitHub activity unavailable:", error instanceof Error ? error.message : "Unknown error");
+    return NextResponse.json({ error: "GitHub activity is temporarily unavailable." }, { status: 502, headers: { "Cache-Control": "no-store" } });
   }
 }
