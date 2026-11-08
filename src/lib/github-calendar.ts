@@ -1,8 +1,25 @@
 export const GITHUB_USERNAME = "husanswe";
+// Husan's GitHub account was opened in February 2023.
+export const GITHUB_FIRST_YEAR = 2023;
+
+/** Today's date (YYYY-MM-DD) in Tashkent, where Husan works. */
+export function getToday(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tashkent", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+}
+
+export function getCurrentYear(now = new Date()) {
+  return Math.max(GITHUB_FIRST_YEAR, Number(getToday(now).slice(0, 4)));
+}
+
+/** Every year from the first contribution year to now, newest first. */
+export function getYears(currentYear: number) {
+  return Array.from({ length: currentYear - GITHUB_FIRST_YEAR + 1 }, (_, index) => currentYear - index);
+}
 
 export type ContributionDay = { date: string; count: number; level: number };
 export type CalendarData = {
   username: string;
+  year: number;
   total: number;
   days: ContributionDay[];
   source: "github-graphql" | "github-contributions-api";
@@ -22,9 +39,9 @@ function finish(days: ContributionDay[]): ContributionDay[] {
 
 const GRAPHQL_LEVELS: Record<string, number> = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 };
 
-export const CONTRIBUTIONS_QUERY = `query($login: String!) {
+export const CONTRIBUTIONS_QUERY = `query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
-    contributionsCollection {
+    contributionsCollection(from: $from, to: $to) {
       contributionCalendar {
         totalContributions
         weeks { contributionDays { date contributionCount contributionLevel } }
@@ -41,26 +58,37 @@ type GraphqlResponse = {
   errors?: { message: string }[];
 };
 
-/** Official GitHub GraphQL API: the same calendar github.com shows on the profile (last 12 months). */
-export function fromGraphql(json: GraphqlResponse): { total: number; days: ContributionDay[] } {
+/** Official GitHub GraphQL API: the same calendar github.com shows on the profile for a year. */
+export function fromGraphql(json: GraphqlResponse, year: number): { total: number; days: ContributionDay[] } {
   if (json.errors?.length) throw new Error(json.errors[0].message);
   const calendar = json.data?.user?.contributionsCollection?.contributionCalendar;
   if (!calendar) throw new Error("GitHub user not found");
-  const days = finish(calendar.weeks.flatMap(week => week.contributionDays).map(day => ({
+  const days = fillYear(finish(calendar.weeks.flatMap(week => week.contributionDays).map(day => ({
     date: day.date,
     count: day.contributionCount,
     level: GRAPHQL_LEVELS[day.contributionLevel] ?? -1,
-  })));
+  }))), year);
   return { total: calendar.totalContributions, days };
 }
 
 type OpenApiResponse = { total?: Record<string, number>; contributions?: ContributionDay[] };
 
 /** Open GitHub contributions API (github.com/grubersjoe/github-contributions-api), no token required. */
-export function fromOpenApi(json: OpenApiResponse): { total: number; days: ContributionDay[] } {
-  const days = finish(json.contributions ?? []);
-  const total = json.total?.lastYear ?? days.reduce((sum, day) => sum + day.count, 0);
+export function fromOpenApi(json: OpenApiResponse, year: number): { total: number; days: ContributionDay[] } {
+  const days = fillYear(finish(json.contributions ?? []), year);
+  const total = json.total?.[String(year)] ?? days.reduce((sum, day) => sum + day.count, 0);
   return { total, days };
+}
+
+/** Exactly January 1 → December 31 of the year; days GitHub has not reached yet are empty. */
+export function fillYear(days: ContributionDay[], year: number): ContributionDay[] {
+  const byDate = new Map(days.map(day => [day.date, day]));
+  const filled: ContributionDay[] = [];
+  for (let time = Date.UTC(year, 0, 1); time < Date.UTC(year + 1, 0, 1); time += 86_400_000) {
+    const date = new Date(time).toISOString().slice(0, 10);
+    filled.push(byDate.get(date) ?? { date, count: 0, level: 0 });
+  }
+  return filled;
 }
 
 /** Columns of 7 days (Sunday → Saturday), exactly like the GitHub profile graph. */

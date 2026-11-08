@@ -155,6 +155,19 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .github-graph { width: fit-content; max-width: 100%; }
 .github-graph-title { display: inline-block; margin-bottom: 14px; font-size: var(--body-text-size); color: var(--foreground); }
 .github-graph-title:hover { text-decoration: underline; text-underline-offset: 4px; }
+.github-graph-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.github-graph-header .github-graph-title { margin-bottom: 0; }
+.year-menu { position: relative; flex: 0 0 auto; }
+.year-menu-button { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 9px 0 11px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--foreground); font-size: 12px; line-height: 1; }
+.year-menu-button:hover, .year-menu-button[aria-expanded="true"] { background: var(--surface-hover); border-color: var(--muted); }
+.year-menu-button svg { color: var(--muted); transition: transform .15s; }
+.year-menu-button[aria-expanded="true"] svg { transform: rotate(180deg); }
+.year-menu-list { position: absolute; z-index: 40; top: calc(100% + 6px); right: 0; min-width: 112px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--background); box-shadow: 0 8px 24px #0006; display: flex; flex-direction: column; }
+[data-theme="light"] .year-menu-list { box-shadow: 0 8px 24px #00000014; }
+.year-menu-option { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px 7px 8px; border: 0; border-radius: 5px; background: transparent; color: var(--foreground); font-size: 12px; text-align: left; }
+.year-menu-option:hover, .year-menu-option:focus-visible { background: var(--surface-hover); outline: none; }
+.year-menu-option[aria-selected="true"] { font-weight: 600; }
+.github-graph-day.is-future { opacity: .35; }
 .github-graph-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; padding-bottom: 4px; }
 .github-graph-weeks { --cell: 11px; --gap: 3px; display: grid; grid-auto-flow: column; grid-auto-columns: var(--cell); gap: var(--gap); width: max-content; }
 .github-graph-week { display: grid; grid-template-rows: 22px repeat(7, var(--cell)); row-gap: var(--gap); }
@@ -166,9 +179,9 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .github-graph-day[data-level="3"] { background: var(--graph-3); }
 .github-graph-day[data-level="4"] { background: var(--graph-4); }
 .github-graph-day:hover, .github-graph-day:focus-visible { outline: 1px solid var(--foreground); }
-.github-graph-total { margin: 12px 0 0; font-size: var(--body-text-size); color: var(--muted); }
+.github-graph-total { margin: 12px 0 0; min-height: 1.5em; font-size: var(--body-text-size); color: var(--muted); }
 .github-graph-total a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }
-.github-graph-skeleton { width: min(745px, 100%); height: 120px; background: repeating-linear-gradient(90deg, var(--surface) 0 11px, transparent 11px 14px); opacity: .6; animation: breathe 2s ease-in-out infinite; }
+.github-graph-skeleton { width: min(739px, 100%); height: 117px; margin-bottom: 4px; background: repeating-linear-gradient(90deg, var(--surface) 0 11px, transparent 11px 14px); opacity: .6; animation: breathe 2s ease-in-out infinite; }
 .activity-tooltip { position: fixed; z-index: 50; transform: translate(-50%, -100%); padding: 7px 10px; font-size: 12px; line-height: 1.5; max-width: min(240px, calc(100vw - 24px)); background: var(--foreground); color: var(--background); border-radius: 5px; pointer-events: none; box-shadow: 0 4px 20px #0004; }
 @keyframes breathe { 50% { opacity: .25; } }
 

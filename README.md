@@ -46,14 +46,14 @@ Vercel's production domain supplies absolute sharing and sitemap URLs automatica
 
 ## GitHub activity
 
-The Activity section shows the same contribution graph as the GitHub profile page: the last 12 months, Sunday-to-Saturday columns, five intensity levels, hover/tap details per day, and the total contributions in the last year.
+The Activity section shows the same contribution graph as the GitHub profile page for one year at a time: January to December, Sunday-to-Saturday columns, five intensity levels, hover/tap details per day, and the year's total contributions. It opens on the current year. A small year button on the right opens a GitHub-style menu with every year from 2023 (when the account was opened) to now, and new years are added automatically.
 
 Data comes from the server route `src/app/api/github/route.ts`:
 
 1. **Official GitHub GraphQL API (recommended, real-time).** Create a GitHub personal access token (classic, no scopes needed) and add it in Vercel as the `GITHUB_TOKEN` environment variable, then redeploy. The graph then matches github.com exactly and updates within about a minute.
 2. **Open GitHub contributions API (fallback, no token).** Without `GITHUB_TOKEN`, or if GraphQL fails, the route uses [github-contributions-api](https://github.com/grubersjoe/github-contributions-api). That service caches GitHub's data, so new activity can take longer to appear.
 
-The browser refreshes the graph every minute while the page is visible. The graph counts **contributions** (commits, pull requests, reviews, issues), exactly as GitHub does. Private activity appears only if your GitHub profile shows private contributions.
+The browser refreshes the current year every minute while the page is visible. Finished years never change, so they are cached for a day. The graph counts **contributions** (commits, pull requests, reviews, issues), exactly as GitHub does. Private activity appears only if your GitHub profile shows private contributions.
 
 ## Theme and accessibility
 
@@ -69,7 +69,7 @@ npm test
 npm run build
 ```
 
-Calendar tests cover both data sources, weekday alignment, month labels, and malformed upstream data.
+Calendar tests cover both data sources, full-year and leap-year ranges, the year list, weekday alignment, month labels, and malformed upstream data.
 
 ## Create a repository
 
